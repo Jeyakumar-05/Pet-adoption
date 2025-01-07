@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+*{
+    padding: 0px;
+    border: 0px;
+}
+
+@keyframes float {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px); /* Adjust the height of the float */
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-heart {
+    animation: float 4s ease-in-out infinite;
+  }
+  
+  .active {
+    border-bottom: 3px solid;
+    border-image-source: linear-gradient(to right, #ed5d0a, #ff800a);
+    border-image-slice: 1;
+  }
+  
+  
+  

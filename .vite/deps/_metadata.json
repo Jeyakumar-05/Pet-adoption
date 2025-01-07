@@ -1,0 +1,15 @@
+{
+  "hash": "61694e6a",
+  "configHash": "5b1760a8",
+  "lockfileHash": "2826f977",
+  "browserHash": "ca0d028b",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "1fb8bc03",
+      "needsInterop": true
+    }
+  },
+  "chunks": {}
+}
