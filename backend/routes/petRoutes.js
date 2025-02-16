@@ -1,10 +1,9 @@
-const express = require('express');
+import express from "express";
+import { getPets, addPet, deletePet } from "../controllers/petController.js"
+
 const router = express.Router();
-const { getPets, addPet, deletePet } = require('../controllers/petController');
 
-router.route('/').get(getPets).post(addPet); 
-router.route('/:name').delete(deletePet); 
-module.exports = router;
+router.route("/").get(getPets).post(addPet);
+router.route("/:name").delete(deletePet);
 
-
-
+export default router;

@@ -6,32 +6,6 @@ import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 const About = () => {
   const [hovered, setHovered] = useState(null);
 
-  const teamMembers = [
-    {
-      name: 'Jeyakumar',
-      socials: {
-        gmail: 'mailto:jeyakumars22cse@srishakthi.ac.in',
-      },
-    },
-    {
-      name: 'Harissh',
-      socials: {
-        gmail: 'mailto:harisshks22cse@srishakthi.ac.in',
-      },
-    },
-    {
-      name: 'Balaji',
-      socials: {
-        gmail: 'mailto:balajiss22cse@srishakthi.ac.in',
-      },
-    },
-    {
-      name: 'Adithya',
-      socials: {
-        gmail: 'mailto:adithyars22cse@srishakthi.ac.in',
-      },
-    },
-  ];
 
   return (
     <>
@@ -64,30 +38,6 @@ const About = () => {
                   We collaborate with shelters, rescues, and individuals to provide a seamless adoption process. Our focus on transparency ensures trust and confidence in every adoption story.
                 </p>
               </div>
-            </div>
-          </div>
-
-          {/* Meet the Team Section */}
-          <div className="mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 text-center mb-12">Meet Our Dedicated Team</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {teamMembers.map((member, index) => (
-                <div
-                  key={index}
-                  className={`bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition-transform duration-300 transform ${hovered === index ? 'scale-105' : ''}`}
-                  onMouseEnter={() => setHovered(index)}
-                  onMouseLeave={() => setHovered(null)}
-                >
-                  <h3 className="text-xl font-semibold text-gray-800 mb-2">{member.name}</h3>
-                  {hovered === index && (
-                    <div className="mt-4">
-                      <a href={member.socials.gmail} className="text-gray-500 hover:text-orange-600 transition-colors duration-300">
-                        <FontAwesomeIcon icon={faEnvelope} className="w-6 h-6" />
-                      </a>
-                    </div>
-                  )}
-                </div>
-              ))}
             </div>
           </div>
 
