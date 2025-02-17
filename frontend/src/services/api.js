@@ -54,7 +54,8 @@ export const submitContactForm = async (contactData) => {
 };
 
 export const api = axios.create({
-  baseURL: "http://localhost:7777/api/v1/user",
+  // baseURL: "http://localhost:7777/api/v1/user",
+  baseURL: "https://pet-adoption-asv5.onrender.com/api/v1/user",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
