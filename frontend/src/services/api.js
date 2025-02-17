@@ -1,5 +1,6 @@
 import axios from "axios";
-const API_URL = "http://localhost:7777";
+// const API_URL = "http://localhost:7777";
+const API_URL = "https://pet-adoption-asv5.onrender.com";
 
 export const fetchPets = async () => {
   try {
