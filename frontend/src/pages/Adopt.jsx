@@ -26,14 +26,15 @@ const AdoptPage = () => {
     }
   };
   
-
+  const userData = JSON.parse(localStorage.getItem("user"));
+  const isAdmin = userData?.role === 'admin';
 
   return (
     <>
       <Navbar />
       <div className="adopt-page container mx-auto p-6">
         <h1 className="text-3xl font-bold text-center mb-6">Adopt a Pet</h1>
-        <AddComponent onAdd={handleAddPet} />
+        {isAdmin &&  <AddComponent onAdd={handleAddPet} /> }
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
           {pets.map((pet) => (
             <PetCard key={pet.id} pet={pet} onDelete={handleDeletePet} />

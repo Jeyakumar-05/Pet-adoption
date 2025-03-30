@@ -48,7 +48,7 @@ const RegisterPage = () => {
         ))}
       </div>
 
-      {/* Glassmorphic Container */}
+     
       <div className="bg-white/20 backdrop-blur-lg shadow-2xl rounded-xl p-8 w-full max-w-md border border-white/30 transform transition-transform hover:scale-105 relative z-10">
       <div className="flex items-center justify-center mb-6 space-x-3">
           <PawPrint color="#f1603b" width={30} height={30} />
@@ -146,7 +146,7 @@ const RegisterPage = () => {
             )}
           </button>
 
-          {/* Already Registered Link */}
+          {/*To login if already registered */}
           <div className="text-center">
             <Link
               to="/login"
@@ -157,7 +157,7 @@ const RegisterPage = () => {
           </div>
         </form>
 
-        {/* Simple Note */}
+      
         <div className="mt-8 text-center">
           <p className="text-white/80 text-sm">
           Welcome to <span className="font-semibold">Pawnest</span>! Your gateway to finding and caring for adorable pets. 🐾 

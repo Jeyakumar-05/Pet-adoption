@@ -47,7 +47,7 @@ const LoginPage = () => {
         ))}
       </div>
 
-      {/* Glassmorphic Container */}
+      
       <div className="bg-white/20 backdrop-blur-lg shadow-2xl rounded-xl p-8 w-full max-w-md border border-white/30 transform transition-transform hover:scale-105 relative z-10">
         <div className="flex items-center justify-center mb-6 space-x-3">
           <PawPrint color="#f1603b" width={30} height={30} />
@@ -135,7 +135,7 @@ const LoginPage = () => {
           </div>
         </form>
 
-        {/* Simple Note */}
+        
         <div className="mt-8 text-center">
           <p className="text-white/80 text-sm">
             Join <span className="font-semibold">Pawnest</span> today and find
