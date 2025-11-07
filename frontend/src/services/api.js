@@ -4,10 +4,17 @@ const API_URL = "https://pet-adoption-asv5.onrender.com";
 
 export const fetchPets = async () => {
   try {
-    const response = await axios.get(`${API_URL}/pets`);
+    const response = await axios.get(`${API_URL}/pets`,{
+      withCredentials: true,
+    });
     return response.data; 
   } catch (error) {
-    console.error('Error fetching pets:', error);
+    if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+      // Token missing OR expired
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      window.location.href = "/login"; // redirect to login
+    }
     return [];
   }
 };
@@ -19,6 +26,7 @@ export const addPet = async (pet) => {
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     });
     return response.data;
   } catch (error) {
@@ -29,7 +37,9 @@ export const addPet = async (pet) => {
 
 export const deletePet = async (name) => {
   try {
-    await axios.delete(`${API_URL}/pets/${name}`);
+    await axios.delete(`${API_URL}/pets/${name}`,{
+      withCredentials: true,
+    });
     return true;
   } catch (error) {
     console.error("Error deleting pet:", error);
