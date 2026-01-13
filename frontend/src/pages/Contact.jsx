@@ -194,7 +194,7 @@ const Contact = () => {
               </p>
               <div className="mb-6">
                 <h3 className="font-semibold text-gray-700">Email:</h3>
-                <p className="text-gray-600">pawNest@petadoption.com</p>
+                <p className="text-gray-600">admin@pawnest.com</p>
               </div>
               <div className="mb-6">
                 <h3 className="font-semibold text-gray-700">Phone:</h3>
@@ -203,7 +203,7 @@ const Contact = () => {
               <div className="mb-6">
                 <h3 className="font-semibold text-gray-700">Address:</h3>
                 <p className="text-gray-600">
-                  123 Pet Lane, Animal City, PA 12345
+                 Pawnest,Chinniyampalayam, Coimbatore, Tamil Nadu 641062
                 </p>
               </div>
               <h3 className="font-semibold text-gray-700 mb-4">Follow Us:</h3>

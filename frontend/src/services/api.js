@@ -63,6 +63,18 @@ export const submitContactForm = async (contactData) => {
   }
 };
 
+export const fetchContacts = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/contact`, {
+      withCredentials: true,
+    });
+    return response.data?.data || [];
+  } catch (error) {
+    console.error("Error fetching contacts:", error);
+    return [];
+  }
+};
+
 export const api = axios.create({
   baseURL: "http://localhost:7777/api/v1/user",
   // baseURL: "https://pet-adoption-asv5.onrender.com/api/v1/user",

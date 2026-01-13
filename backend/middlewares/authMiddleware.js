@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import Users from "../models/userModel.js";
 
 export const authMiddleware = (req, res, next) => {
   const token =
@@ -14,5 +15,20 @@ export const authMiddleware = (req, res, next) => {
     next();
   } catch (err) {
     return res.status(403).json({ message: "Invalid token, access denied." });
+  }
+};
+
+export const adminMiddleware = async (req, res, next) => {
+  try {
+    const user = await Users.findById(req.user?.userId).select("role");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    if (user.role !== "admin") {
+      return res.status(403).json({ message: "Admin access only" });
+    }
+    next();
+  } catch (error) {
+    return res.status(500).json({ message: "Error verifying admin access" });
   }
 };
