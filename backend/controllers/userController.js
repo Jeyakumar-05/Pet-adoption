@@ -7,11 +7,22 @@ export const createUser = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
 
   if (!username || !email || !password) {
-    throw new Error("Please fill the fields");
+    return res.status(400).json({ message: "Please fill all fields" });
   }
+
+  // Validate email format
+  if (!email.includes("@")) {
+    return res.status(400).json({ message: "Please enter a valid email address" });
+  }
+
+  // Validate password length
+  if (password.length < 8) {
+    return res.status(400).json({ message: "Password must be at least 8 characters long" });
+  }
+
   const existedUser = await Users.findOne({ email });
   if (existedUser) {
-    res.status(400).send("User already existed");
+    return res.status(400).json({ message: "Email already exists" });
   }
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
@@ -32,30 +43,30 @@ export const createUser = asyncHandler(async (req, res) => {
       role: newUser.role,
     });
   } catch (error) {
-    res.status(400);
-    throw new Error(`The error message is  ${error}`);
+    return res.status(400).json({ message: `Registration failed: ${error.message}` });
   }
 });
 
 export const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    throw new Error("Please fill the fields");
+    return res.status(400).json({ message: "Please fill all fields" });
   }
   const existingUser = await Users.findOne({ email });
-  if (existingUser) {
-    const validPassword = await bcrypt.compare(password, existingUser.password);
-    if (validPassword) {
-      generateToken(res, existingUser._id);
-      res.status(201).json({
-        _id: existingUser._id,
-        username: existingUser.username,
-        email: existingUser.email,
-        role: existingUser.role,
-      });
-    }
+  if (!existingUser) {
+    return res.status(401).json({ message: "Invalid email or password" });
   }
-  return;
+  const validPassword = await bcrypt.compare(password, existingUser.password);
+  if (!validPassword) {
+    return res.status(401).json({ message: "Invalid email or password" });
+  }
+  generateToken(res, existingUser._id);
+  res.status(201).json({
+    _id: existingUser._id,
+    username: existingUser.username,
+    email: existingUser.email,
+    role: existingUser.role,
+  });
 });
 
 export const logoutUser = asyncHandler(async (req, res) => {

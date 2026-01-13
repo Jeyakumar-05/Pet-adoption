@@ -1,6 +1,8 @@
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { toast } from "sonner";
+import { Toaster } from "sonner";
 import { PawPrint } from "lucide-react";
 
 const RegisterPage = () => {
@@ -13,15 +15,35 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Basic validation
+    if (!username || !email || !password) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    // Email validation
+    if (!email.includes("@")) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
+    // Password length validation
+    if (password.length < 8) {
+      toast.error("Password must be at least 8 characters long");
+      return;
+    }
+
     setIsLoading(true);
     try {
       await registerUser(username, email, password);
-      console.log("Registered successfully");
+      toast.success("Registration successful! Welcome to Pawnest! 🐾");
       setUsername("");
       setEmail("");
       setPassword("");
     } catch (error) {
-      console.log(`Error during registration: ${error}`);
+      const errorMessage = error.message || "Registration failed. Please try again.";
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -29,6 +51,7 @@ const RegisterPage = () => {
 
   return (
     <div className="h-screen flex justify-center items-center px-4 bg-gradient-to-br from-orange-400 to-orange-500 animate-gradient">
+      <Toaster richColors position="top-center" expand={true} />
       {/* Floating Pet Icons */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
         {[...Array(6)].map((_, i) => (
@@ -56,7 +79,7 @@ const RegisterPage = () => {
         </div>
 
         {/* Form */}
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleSubmit}>
           {/* Username Input */}
           <div>
             <label className="block text-white mb-2">Username</label>
@@ -130,7 +153,7 @@ const RegisterPage = () => {
 
           {/* Register Button */}
           <button
-            onClick={handleSubmit}
+            type="submit"
             disabled={isLoading}
             className="w-full bg-orange-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-orange-500 active:bg-orange-600 transition-colors shadow-lg hover:shadow-xl relative overflow-hidden"
           >

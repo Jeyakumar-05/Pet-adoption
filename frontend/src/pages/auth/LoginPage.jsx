@@ -1,7 +1,8 @@
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-
+import { toast } from "sonner";
+import { Toaster } from "sonner";
 import { PawPrint } from "lucide-react";
 
 const LoginPage = () => {
@@ -13,14 +14,22 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Basic validation
+    if (!email || !password) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
     setIsLoading(true);
     try {
       await loginUser(email, password);
-      console.log("Login successful");
+      toast.success("Login successful! Welcome back! 🐾");
       setEmail("");
       setPassword("");
     } catch (error) {
-      console.log(`Error during login: ${error}`);
+      const errorMessage = error.message || "Invalid email or password";
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -28,6 +37,7 @@ const LoginPage = () => {
 
   return (
     <div className="h-screen flex justify-center items-center px-4 bg-gradient-to-br from-orange-400 to-orange-500 animate-gradient">
+      <Toaster richColors position="top-center" expand={true} />
       {/* Floating Pet Icons */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
         {[...Array(6)].map((_, i) => (
@@ -55,7 +65,7 @@ const LoginPage = () => {
         </div>
 
         {/* Form */}
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleSubmit}>
           {/* Email Input */}
           <div>
             <label className="block text-white mb-2">Email</label>
@@ -109,7 +119,6 @@ const LoginPage = () => {
           <div className="flex justify-between items-center mt-6">
             <button
               type="submit"
-              onClick={handleSubmit}
               disabled={isLoading}
               className="bg-orange-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-orange-600 active:bg-orange-700 transition-colors shadow-lg hover:shadow-xl relative overflow-hidden"
             >

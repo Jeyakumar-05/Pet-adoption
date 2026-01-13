@@ -32,7 +32,9 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("user", JSON.stringify(data));
       navigate("/");
     } catch (error) {
-      console.log(`Unable to register the user ${error}`);
+      const errorMessage = error.response?.data?.message || error.message || "Unable to register the user";
+      console.log(`Unable to register the user: ${errorMessage}`);
+      throw new Error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -52,7 +54,9 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("user", JSON.stringify(data));
       navigate("/");
     } catch (error) {
-      console.log(`Unable to login the user${error}`);
+      const errorMessage = error.response?.data?.message || error.message || "Unable to login the user";
+      console.log(`Unable to login the user: ${errorMessage}`);
+      throw new Error(errorMessage);
     } finally {
       setLoading(false);
     }
