@@ -12,7 +12,14 @@ import Pets from "./routes/petRoutes.js";
 import Contact from "./routes/contactRoute.js";
 import userRoute from "./routes/userRoute.js";
 
-dotenv.config();
+// Load environment variables
+dotenv.config({ path: "./.env" });
+
+// Debug: Check if email env vars are loaded (without showing values)
+console.log("Environment check:");
+console.log("EMAIL_USER:", process.env.EMAIL_USER ? "✓ Loaded" : "✗ Missing");
+console.log("EMAIL_PASSWORD:", process.env.EMAIL_PASSWORD ? "✓ Loaded" : "✗ Missing");
+console.log("EMAIL_SERVICE:", process.env.EMAIL_SERVICE || "gmail (default)");
 
 // initialize the port
 

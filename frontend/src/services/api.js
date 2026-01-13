@@ -75,6 +75,38 @@ export const fetchContacts = async () => {
   }
 };
 
+export const acceptContactRequest = async (contactId) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/contact/${contactId}/accept`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error accepting contact request:", error);
+    throw error;
+  }
+};
+
+export const rejectContactRequest = async (contactId) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/contact/${contactId}/reject`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error rejecting contact request:", error);
+    throw error;
+  }
+};
+
 export const api = axios.create({
   baseURL: "http://localhost:7777/api/v1/user",
   // baseURL: "https://pet-adoption-asv5.onrender.com/api/v1/user",

@@ -25,7 +25,7 @@ const AddComponent = ({ onAdd }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white shadow-md rounded-lg p-6 mb-6"
+      className="bg-white shadow-md rounded-lg p-6 mb-6 max-w-xl mx-auto"
     >
       <h2 className="text-xl font-semibold mb-4">Add a Pet</h2>
       <div className="grid grid-cols-1 gap-4">
