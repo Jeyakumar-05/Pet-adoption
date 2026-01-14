@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
+import FloatingChatbot from '../components/FloatingChatbot';
 import phimg from '../assests/img/ebceef4f-a68f-4183-8ada-8f27b37c10ab.jpeg';
 import myim from '../assests/img/adopt-a-pet.jpg';
 import dogImage from '../assests/img/doggoquote.jpg';
@@ -281,8 +282,9 @@ const Home = () => {
             <button className="bg-orange-600 text-white px-6 py-2 rounded-full hover:bg-orange-700 transition">LEARN MORE</button>
           </div>
         </div>   
-</div>
+</div>   
           
+      <FloatingChatbot />
     </>
   );
 };

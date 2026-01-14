@@ -27,6 +27,27 @@ export const addPet = async (req, res) => {
   }
 };
 
+export const searchPets = async (req, res) => {
+  try {
+    const { query } = req.query;
+    
+    if (!query) {
+      return res.status(400).json({ message: "Search query is required" });
+    }
+
+    const pets = await Pet.find({
+      $or: [
+        { id: { $regex: query, $options: 'i' } },
+        { name: { $regex: query, $options: 'i' } }
+      ]
+    });
+
+    res.json(pets);
+  } catch (error) {
+    res.status(500).json({ message: "Error searching pets" });
+  }
+};
+
 export const deletePet = async (req, res) => {
   try {
     const { name } = req.params;

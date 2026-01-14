@@ -19,6 +19,23 @@ export const fetchPets = async () => {
   }
 };
 
+export const searchPets = async (query) => {
+  try {
+    const response = await axios.get(`${API_URL}/pets/search?query=${encodeURIComponent(query)}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+      // Token missing OR expired
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      window.location.href = "/login"; // redirect to login
+    }
+    return [];
+  }
+};
+
 
 export const addPet = async (pet) => {
   try {
