@@ -9,6 +9,7 @@ import { AuthProvider } from "./context/AuthContext";
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import PrivateRoute from "./routes/PrivateRoute";
+import NonAdminRoute from "./routes/NonAdminRoute";
 
 function App() {
   return (
@@ -29,7 +30,14 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/adopt" element={<Adopt />} />
           <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route 
+            path="/contact" 
+            element={
+              <NonAdminRoute>
+                <Contact />
+              </NonAdminRoute>
+            } 
+          />
         </Routes>
       </AuthProvider>
     </Router>

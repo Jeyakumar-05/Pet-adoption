@@ -8,7 +8,7 @@ import { AuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { logoutUser } = useContext(AuthContext);
+  const { logoutUser, user } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +28,7 @@ const Navbar = () => {
     { title: "Home", path: "/home" },
     { title: "Adopt", path: "/adopt" },
     { title: "About", path: "/about" },
-    { title: "Contact", path: "/contact" },
+    ...(user && user.role !== 'admin' ? [{ title: "Contact", path: "/contact" }] : []),
   ];
 
   return (
