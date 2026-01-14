@@ -176,7 +176,7 @@ const Contact = () => {
               </div>
               <Toaster richColors position="top-center" expand={true} />
               <button
-                onClick={() => toast.success("Successfully Submitted")}
+                onSubmit={() => toast.success("Successfully Submitted")}
                 className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-lg transition duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-orange-300"
               >
                 Submit

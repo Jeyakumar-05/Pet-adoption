@@ -1,31 +1,24 @@
-// // Package import
+// Load env FIRST (very important)
+import dotenv from "dotenv";
+dotenv.config();
 
 import express from "express";
-import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-// utils import
-
+// DB & Routes
 import connectDB from "./config/db.js";
 import Pets from "./routes/petRoutes.js";
 import Contact from "./routes/contactRoute.js";
 import userRoute from "./routes/userRoute.js";
 
-// Load environment variables
-dotenv.config({ path: "./.env" });
-
-
-// initialize the port
-
+const app = express();
 const port = process.env.PORT || 5000;
 
-// DB conection
-
+// DB connection
 connectDB(process.env.MONGO_DB_URI);
 
-const app = express();
-
+// Middlewares
 app.use(
   cors({
     // origin: "http://localhost:5173",
@@ -35,18 +28,22 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// Test route
 app.get("/", (req, res) => {
-  res.send("Welcome to the  api");
+  res.send("Welcome to the API");
 });
 
+// Routes
 app.use("/api/v1/user", userRoute);
 app.use("/contact", Contact);
 app.use("/pets", Pets);
 
+// Start server
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log(`Server running on port ${port}`);
 });
