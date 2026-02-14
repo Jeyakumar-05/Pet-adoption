@@ -31,6 +31,12 @@ const createTransporter = () => {
 
 export const sendAcceptanceEmail = async (to, petName, adopterName) => {
   try {
+    console.log("=== STARTING EMAIL SEND ===");
+    console.log("To:", to);
+    console.log("Pet Name:", petName);
+    console.log("Adopter Name:", adopterName);
+    console.log("Email User:", process.env.EMAIL_USER);
+    console.log("Email Password exists:", !!process.env.EMAIL_PASSWORD);
 
     // Verify email configuration first
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
@@ -97,10 +103,17 @@ export const sendAcceptanceEmail = async (to, petName, adopterName) => {
       `,
     };
 
-    await transporter.sendMail(mailOptions);
+    console.log("Attempting to send email...");
+    const info = await transporter.sendMail(mailOptions);
+    console.log("✅ EMAIL SENT SUCCESSFULLY!");
+    console.log("Message ID:", info.messageId);
+    console.log("Response:", info.response);
     return { success: true };
   } catch (error) {
-    console.error("Error sending acceptance email:", error);
+    console.error("❌ ERROR SENDING ACCEPTANCE EMAIL:");
+    console.error("Error code:", error.code);
+    console.error("Error message:", error.message);
+    console.error("Full error:", error);
 
     // Provide more helpful error messages
     if (error.code === "EAUTH") {
@@ -117,6 +130,10 @@ export const sendAcceptanceEmail = async (to, petName, adopterName) => {
 
 export const sendRejectionEmail = async (to, petName, adopterName) => {
   try {
+    console.log("=== STARTING REJECTION EMAIL SEND ===");
+    console.log("To:", to);
+    console.log("Pet Name:", petName);
+    console.log("Adopter Name:", adopterName);
 
     // Verify email configuration first
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
@@ -180,10 +197,17 @@ export const sendRejectionEmail = async (to, petName, adopterName) => {
       `,
     };
 
-    await transporter.sendMail(mailOptions);
+    console.log("Attempting to send rejection email...");
+    const info = await transporter.sendMail(mailOptions);
+    console.log("✅ REJECTION EMAIL SENT SUCCESSFULLY!");
+    console.log("Message ID:", info.messageId);
+    console.log("Response:", info.response);
     return { success: true };
   } catch (error) {
-    console.error("Error sending rejection email:", error);
+    console.error("❌ ERROR SENDING REJECTION EMAIL:");
+    console.error("Error code:", error.code);
+    console.error("Error message:", error.message);
+    console.error("Full error:", error);
 
     // Provide more helpful error messages
     if (error.code === "EAUTH") {
