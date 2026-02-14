@@ -11,10 +11,12 @@ const createTransporter = () => {
   }
 
   const transporter = nodemailer.createTransport({
-    service: process.env.EMAIL_SERVICE || "gmail",
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // Use STARTTLS
     auth: {
       user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASSWORD, // Use App Password for Gmail
+      pass: process.env.EMAIL_PASSWORD,
     },
   });
 
@@ -97,7 +99,7 @@ export const sendAcceptanceEmail = async (to, petName, adopterName) => {
     return { success: true };
   } catch (error) {
     console.error("Error sending acceptance email:", error);
-    
+
     // Provide more helpful error messages
     if (error.code === "EAUTH") {
       throw new Error(
@@ -184,7 +186,7 @@ export const sendRejectionEmail = async (to, petName, adopterName) => {
     return { success: true };
   } catch (error) {
     console.error("Error sending rejection email:", error);
-    
+
     // Provide more helpful error messages
     if (error.code === "EAUTH") {
       throw new Error(

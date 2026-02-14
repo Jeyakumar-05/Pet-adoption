@@ -1,13 +1,13 @@
 import axios from "axios";
-// const API_URL = "http://localhost:7777";
 const API_URL = "https://pet-adoption-asv5.onrender.com";
+// const API_URL = "http://localhost:7777";
 
 export const fetchPets = async () => {
   try {
-    const response = await axios.get(`${API_URL}/pets`,{
+    const response = await axios.get(`${API_URL}/pets`, {
       withCredentials: true,
     });
-    return response.data; 
+    return response.data;
   } catch (error) {
     if (error.response && (error.response.status === 401 || error.response.status === 403)) {
       // Token missing OR expired
@@ -39,7 +39,7 @@ export const searchPets = async (query) => {
 
 export const addPet = async (pet) => {
   try {
-    const response = await axios.post(`${API_URL}/pets`,pet, {
+    const response = await axios.post(`${API_URL}/pets`, pet, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -54,7 +54,7 @@ export const addPet = async (pet) => {
 
 export const deletePet = async (name) => {
   try {
-    await axios.delete(`${API_URL}/pets/${name}`,{
+    await axios.delete(`${API_URL}/pets/${name}`, {
       withCredentials: true,
     });
     return true;
@@ -125,8 +125,7 @@ export const rejectContactRequest = async (contactId) => {
 };
 
 export const api = axios.create({
-  // baseURL: "http://localhost:7777/api/v1/user",
-  baseURL: "https://pet-adoption-asv5.onrender.com/api/v1/user",
+  baseURL: `${API_URL}/api/v1/user`,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",

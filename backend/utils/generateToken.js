@@ -5,12 +5,15 @@ const generateToken = (res, userId) => {
         expiresIn: "1d"
     });
 
-    const isProduction = process.env.NODE_ENV === "production";
+    const secureCookie =
+      process.env.COOKIE_SECURE === "true" ||
+      process.env.NODE_ENV === "production";
+    const sameSite = secureCookie ? "none" : "lax";
 
     res.cookie("jwt", token, {
         httpOnly: true,
-        secure: isProduction,
-        sameSite: "none", // required for cross-domain cookies
+        secure: secureCookie,
+        sameSite,
         path: "/",
         maxAge: 1 * 24 * 60 * 60 * 1000
     })

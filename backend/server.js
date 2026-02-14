@@ -13,7 +13,12 @@ import Contact from "./routes/contactRoute.js";
 import userRoute from "./routes/userRoute.js";
 
 const app = express();
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://pet-adoption-ruby.vercel.app"
+];
 const port = process.env.PORT || 5000;
+
 
 // DB connection
 connectDB(process.env.MONGO_DB_URI);
@@ -21,8 +26,16 @@ connectDB(process.env.MONGO_DB_URI);
 // Middlewares
 app.use(
   cors({
-    // origin: "http://localhost:5173",
-    origin: "https://pet-adoption-ruby.vercel.app",
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("CORS not allowed for this origin"));
+      }
+    },
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],

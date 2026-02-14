@@ -3,10 +3,11 @@ import Navbar from "../components/Navbar";
 import { submitContactForm } from "../services/api";
 import { Toaster, toast } from "sonner";
 import butt from "../assests/img/buttthanks.jpg";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Contact = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -17,8 +18,8 @@ const Contact = () => {
 
   useEffect(() => {
     if (location.state) {
-      setPetId(location.state.petId || " ");
-      setPetName(location.state.petName || " ");
+      setPetId(location.state.petId || "");
+      setPetName(location.state.petName || "");
     }
   }, [location.state]);
 
@@ -33,9 +34,7 @@ const Contact = () => {
 
       if (result) {
         console.log("Form submitted:", result);
-        setMessage(
-          "Thank you for your inquiry. We will get back to you shortly."
-        );
+        toast.success("Form submitted successfully!");
         setShowConfirmation(true);
         setName("");
         setEmail("");
@@ -43,6 +42,7 @@ const Contact = () => {
         setPetId("");
         setPetName("");
         setMessage("");
+        navigate(location.pathname, { replace: true, state: null });
       } else {
         console.error("Error submitting the form");
       }
@@ -176,7 +176,7 @@ const Contact = () => {
               </div>
               <Toaster richColors position="top-center" expand={true} />
               <button
-                onSubmit={() => toast.success("Successfully Submitted")}
+                type="submit"
                 className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-lg transition duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-orange-300"
               >
                 Submit
