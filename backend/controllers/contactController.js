@@ -1,4 +1,5 @@
 import Contact from "../models/contactModel.js";
+import Pet from "../models/petModel.js";
 import { sendAcceptanceEmail, sendRejectionEmail } from "../utils/sendEmail.js";
 
 export const submitContactForm = async (req, res) => {
@@ -56,6 +57,14 @@ export const acceptContactRequest = async (req, res) => {
       contact.petName || "your requested pet",
       contact.name
     );
+
+    // Update pet status to adopted
+    if (contact.petId) {
+      await Pet.findOneAndUpdate(
+        { id: contact.petId },
+        { status: "adopted" }
+      );
+    }
 
     // Delete the contact from database after sending email
     await Contact.findByIdAndDelete(contactId);

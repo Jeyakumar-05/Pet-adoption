@@ -63,10 +63,23 @@ const AdoptPage = () => {
     try {
       await acceptContactRequest(contactId);
       toast.success("Acceptance email sent successfully! 🎉");
+
+      // Find the contact to identify the pet
+      const contact = contacts.find((c) => c._id === contactId);
+
       // Remove the request from the list
       setContacts((prevContacts) =>
-        prevContacts.filter((contact) => contact._id !== contactId)
+        prevContacts.filter((c) => c._id !== contactId)
       );
+
+      // Update the pet status in the local state
+      if (contact?.petId) {
+        setPets((prevPets) =>
+          prevPets.map((pet) =>
+            pet.id === contact.petId ? { ...pet, status: "adopted" } : pet
+          )
+        );
+      }
     } catch (error) {
       const errorMessage =
         error.response?.data?.message ||

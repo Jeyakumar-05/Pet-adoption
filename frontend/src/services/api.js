@@ -2,6 +2,7 @@ import axios from "axios";
 const API_URL = "https://pet-adoption-asv5.onrender.com";
 // const API_URL = "http://localhost:7777";
 
+
 export const fetchPets = async () => {
   try {
     const response = await axios.get(`${API_URL}/pets`, {
@@ -120,6 +121,22 @@ export const rejectContactRequest = async (contactId) => {
     return response.data;
   } catch (error) {
     console.error("Error rejecting contact request:", error);
+    throw error;
+  }
+};
+
+export const updatePetStatus = async (id, status) => {
+  try {
+    const response = await axios.put(
+      `${API_URL}/pets/${id}/status`,
+      { status },
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error updating pet status:", error);
     throw error;
   }
 };

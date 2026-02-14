@@ -21,7 +21,12 @@ const petSchema = mongoose.Schema({
     type: String,
     required: false,
   },
-},{timestamps: true});
+  status: {
+    type: String,
+    enum: ["available", "adopted"],
+    default: "available",
+  },
+}, { timestamps: true });
 
 const Pet = mongoose.model("Pet", petSchema);
 
