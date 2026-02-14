@@ -12,8 +12,8 @@ const createTransporter = () => {
 
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
-    port: 587,
-    secure: false, // Use STARTTLS
+    port: 465,
+    secure: true, // Use SSL
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASSWORD,
@@ -24,9 +24,6 @@ const createTransporter = () => {
     socketTimeout: 30000,     // 30 seconds
     // Force IPv4 to avoid IPv6 issues in some cloud environments (CRITICAL FIX)
     family: 4,
-    tls: {
-      rejectUnauthorized: false,
-    },
   });
 
   return transporter;
