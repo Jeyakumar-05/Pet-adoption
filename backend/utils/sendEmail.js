@@ -18,6 +18,15 @@ const createTransporter = () => {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASSWORD,
     },
+    // Connection timeouts
+    connectionTimeout: 10000, // 10 seconds
+    greetingTimeout: 10000,   // 10 seconds
+    socketTimeout: 30000,     // 30 seconds
+    // Force IPv4 to avoid IPv6 issues in some cloud environments (CRITICAL FIX)
+    family: 4,
+    tls: {
+      rejectUnauthorized: false,
+    },
   });
 
   return transporter;
