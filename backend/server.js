@@ -47,9 +47,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Test route
-app.get("/", (req, res) => {
-  res.send("Welcome to the API");
-});
+// Test route removed to allow frontend serving
+// app.get("/", (req, res) => {
+//   res.send("Welcome to the API");
+// });
 
 // Routes
 app.use("/api/v1/user", userRoute);
