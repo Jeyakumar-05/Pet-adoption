@@ -51,14 +51,7 @@ export const acceptContactRequest = async (req, res) => {
       return res.status(404).json({ message: "Contact request not found" });
     }
 
-    // Send acceptance email
-    await sendAcceptanceEmail(
-      contact.email,
-      contact.petName || "your requested pet",
-      contact.name
-    );
-
-    // Update pet status to adopted
+    // Update pet status to adopted FIRST
     if (contact.petId) {
       await Pet.findOneAndUpdate(
         { id: contact.petId },
@@ -66,17 +59,29 @@ export const acceptContactRequest = async (req, res) => {
       );
     }
 
-    // Delete the contact from database after sending email
+    // Delete the contact from database
     await Contact.findByIdAndDelete(contactId);
 
+    // Send response immediately to prevent timeout
     res.status(200).json({
-      message: "Acceptance email sent successfully and request deleted",
+      message: "Request accepted successfully",
       data: contact,
     });
+
+    // Send email in background (non-blocking)
+    sendAcceptanceEmail(
+      contact.email,
+      contact.petName || "your requested pet",
+      contact.name
+    ).catch(error => {
+      console.error("Background email error:", error);
+      // Email failed but request was already processed
+    });
+
   } catch (error) {
     console.error("Error accepting contact request:", error);
     res.status(500).json({
-      message: "Error sending acceptance email",
+      message: "Error processing acceptance request",
       error: error.message,
     });
   }
@@ -92,24 +97,29 @@ export const rejectContactRequest = async (req, res) => {
       return res.status(404).json({ message: "Contact request not found" });
     }
 
-    // Send rejection email
-    await sendRejectionEmail(
+    // Delete the contact from database
+    await Contact.findByIdAndDelete(contactId);
+
+    // Send response immediately to prevent timeout
+    res.status(200).json({
+      message: "Request rejected successfully",
+      data: contact,
+    });
+
+    // Send email in background (non-blocking)
+    sendRejectionEmail(
       contact.email,
       contact.petName || "the requested pet",
       contact.name
-    );
-
-    // Delete the contact from database after sending email
-    await Contact.findByIdAndDelete(contactId);
-
-    res.status(200).json({
-      message: "Rejection email sent successfully and request deleted",
-      data: contact,
+    ).catch(error => {
+      console.error("Background email error:", error);
+      // Email failed but request was already processed
     });
+
   } catch (error) {
     console.error("Error rejecting contact request:", error);
     res.status(500).json({
-      message: "Error sending rejection email",
+      message: "Error processing rejection request",
       error: error.message,
     });
   }

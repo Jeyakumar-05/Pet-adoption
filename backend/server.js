@@ -21,7 +21,6 @@ import userRoute from "./routes/userRoute.js";
 const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://pet-adoption-ruby.vercel.app",
   "https://pet-adoption-1-pwx4.onrender.com"
 ];
 const port = process.env.PORT || 5000;
