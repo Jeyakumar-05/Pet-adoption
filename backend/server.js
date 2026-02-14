@@ -1,10 +1,16 @@
-// Load env FIRST (very important)
-import dotenv from "dotenv";
-dotenv.config();
-
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
+import dotenv from "dotenv";
+
+// Load env
+dotenv.config();
+
+// Define __dirname for ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // DB & Routes
 import connectDB from "./config/db.js";
@@ -58,18 +64,22 @@ app.use("/contact", Contact);
 app.use("/pets", Pets);
 
 // Serve static files from frontend/dist
-import path from "path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+  const frontendDistPath = path.join(__dirname, "../frontend/dist");
+
+  console.log("Serving static files from:", frontendDistPath);
+
+  app.use(express.static(frontendDistPath));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "../frontend", "dist", "index.html"));
+    const indexPath = path.resolve(__dirname, "../frontend", "dist", "index.html");
+    console.log("Serving index.html from:", indexPath);
+    res.sendFile(indexPath, (err) => {
+      if (err) {
+        console.error("Error sending index.html:", err);
+        res.status(500).send("Error loading frontend application");
+      }
+    });
   });
 }
 
