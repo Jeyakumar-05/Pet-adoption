@@ -21,7 +21,8 @@ import userRoute from "./routes/userRoute.js";
 const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://pet-adoption-ruby.vercel.app"
+  "https://pet-adoption-ruby.vercel.app",
+  "https://pet-adoption-1-pwx4.onrender.com"
 ];
 const port = process.env.PORT || 5000;
 
@@ -33,12 +34,14 @@ connectDB(process.env.MONGO_DB_URI);
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps or curl requests)
+      // Allow requests with no origin (like mobile apps, curl, or same-origin static files)
       if (!origin) return callback(null, true);
 
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       } else {
+        // Log the blocked origin for debugging
+        console.log("Blocked CORS origin:", origin);
         return callback(new Error("CORS not allowed for this origin"));
       }
     },
