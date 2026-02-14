@@ -41,11 +41,7 @@ export const sendAcceptanceEmail = async (to, petName, adopterName) => {
 
     const transporter = createTransporter();
 
-    // Verify connection
-    console.log("Verifying email connection...");
-    await transporter.verify();
-    console.log("Email connection verified successfully!");
-
+    // Direct send without pre-verification to save time and connection overhead
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: to,
@@ -131,11 +127,7 @@ export const sendRejectionEmail = async (to, petName, adopterName) => {
 
     const transporter = createTransporter();
 
-    // Verify connection
-    console.log("Verifying email connection...");
-    await transporter.verify();
-    console.log("Email connection verified successfully!");
-
+    // Direct send without pre-verification to save time and connection overhead
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: to,
