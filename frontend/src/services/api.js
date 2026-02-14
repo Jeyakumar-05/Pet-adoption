@@ -1,6 +1,6 @@
 import axios from "axios";
-const API_URL = "https://pet-adoption-asv5.onrender.com";
-// const API_URL = "http://localhost:7777";
+// Use relative path in production (unified deployment), localhost in development
+const API_URL = import.meta.env.MODE === "development" ? "http://localhost:7777" : "";
 
 
 export const fetchPets = async () => {
