@@ -12,18 +12,30 @@ const createTransporter = () => {
 
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
-    port: 465,
-    secure: true, // Use SSL
+    port: 587, // Use 587 for STARTTLS (more reliable on cloud platforms)
+    secure: false, // true for 465, false for other ports
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASSWORD,
     },
-    // Connection timeouts
-    connectionTimeout: 10000, // 10 seconds
-    greetingTimeout: 10000,   // 10 seconds
-    socketTimeout: 30000,     // 30 seconds
-    // Force IPv4 to avoid IPv6 issues in some cloud environments (CRITICAL FIX)
+    // Increase timeouts for cloud environments
+    connectionTimeout: 60000, // 60 seconds
+    greetingTimeout: 30000,   // 30 seconds
+    socketTimeout: 60000,     // 60 seconds
+    // Force IPv4 to avoid IPv6 issues in some cloud environments
     family: 4,
+    // Enable connection pooling for better performance
+    pool: true,
+    maxConnections: 5,
+    maxMessages: 10,
+    // Add TLS options for better compatibility
+    tls: {
+      rejectUnauthorized: false, // Allow self-signed certificates (for cloud compatibility)
+      ciphers: 'SSLv3'
+    },
+    // Enable debug mode
+    debug: true,
+    logger: true
   });
 
   return transporter;
